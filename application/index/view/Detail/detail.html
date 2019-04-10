@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>appstore-详情</title>
+    <link href="<?php echo config('view_replace_str.__STATIC__')?>/css/details.css" rel="stylesheet"></head>
+
+<body>
+<style>
+    .downloadModule {
+        position: absolute;
+        top:50%;
+        margin-top: -15px;
+        right:22px;
+    }
+</style>
+
+
+
+
+<div id="warpper">
+    <!--头部模板文件-->
+    {include file="public/header" /}
+    <!--头部模板文件-->
+    <div class="main">
+        <div class="pinholder" style="height: 41px;">
+            <div class="pin">
+                <div class="classify-sec firstview">
+                    <h2>
+                        <a href="#" onclick="javascript:history.back(-1)" class="go-back">
+                            <span>&nbsp;&nbsp;</span></a>
+                        详情</h2></div>
+            </div>
+        </div>
+        <div class="Relative">
+            <dl class="software-info">
+                <dt>
+              <span>
+                <img src="<?php echo config('view_replace_str.__STAT__')?>/{$apps[0]['UserID']}/{$apps[0]['AppID']}/{$apps[0]['Pic']}" alt=""></span>
+                </dt>
+                <dd>
+                    <h2>{$apps[0]['AppName']}</h2>
+                    <div class="star">
+                        <p style="width:99%"></p>
+                    </div>
+                    <p class="num">{$apps[0]['Size']}MB</p>
+                    <div class="downloadModule">
+                        <div class="Box is-center">
+                            <div class="Box_flex" id="apkList">
+              <span class="app-item" data-href="&amp;id=3585959" data-sid="3585959" data-asin="" data--pv="true">
+                <a href="<?php echo Url('Index/download')?>?name={$apps[0]['AppName']}" class="js-downloadBtn btn-2 mainBtn">
+                  <span></span>立即使用</a>
+              </span>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="software-form">
+            <h2>来自APP应用商店
+                <span>
+              <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t01264dc4e907fd00d1.gif" alt=""></span></h2>
+            <div class="software-img" id="thumbList">
+                <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t01ce44d47d6ad07fee.png">
+                <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t010c557044b2a487cd.png">
+                <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t01b3fe8a58a8000258.png">
+                <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t012fe379a7a23113ab.png"></div>
+            <ul>
+                <li>版本：{$versions['VersionName']}</li>
+                <li>使用：超过{$apps[0]['DownloadCount']}人</li>
+                <li>语言：中文</li>
+                <li>更新：{$apps[0]['Time']}</li>
+                <li>作者：{$user['Name']}</li></ul>
+        </div>
+        <div class="software-about">
+            <div class="about-little" id="shortDesc" style="display: block;">{$apps[0]['AppDetail']}
+                <p>
+                    <a href="#" id="expand">展开
+                        <span></span></a>
+                </p>
+            </div>
+            <div class="about-full" id="fullDesc" style="display:none;">{$apps[0]['AppDetail']}
+                <p>
+                    <a href="#" id="fold">收起
+                        <span></span></a>
+                </p>
+            </div>
+        </div>
+        <div class="related">
+            <h2>相关推荐</h2>
+            <ul>
+                <li>
+                    <a href="http://app.so.com/detail/index?pname=com.yijiej.app&amp;id=3723501">
+                <span>
+                  <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t01d3d02d4e311693d5.png" alt=""></span>易借金</a>
+                </li>
+                <li>
+                    <a href="http://app.so.com/detail/index?pname=com.chinamworld.main&amp;id=9347">
+                <span>
+                  <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t018c544997e683dd66.png" alt=""></span>中国建设银行</a>
+                </li>
+                <li>
+                    <a href="http://app.so.com/detail/index?pname=com.mfp.jelly.qihoo&amp;id=1987469">
+                <span>
+                  <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t01c5f4e0b4ad49066d.png" alt=""></span>宾果消消消-无流量也能玩</a>
+                </li>
+                <li>
+                    <a href="http://app.so.com/detail/index?pname=com.rongba.ecloneloan&amp;id=3689650">
+                <span>
+                  <img src="<?php echo config('view_replace_str.__STATIC__')?>/images/t014da86e979434fb78.png" alt=""></span>易贷款</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="goto-top">
+    <a href="#gemore" id="back-to-top" class="user-pl-more-btn goto-bar">返回顶部</a></div>
+<script>$('#expand').on('click',
+    function(evt) {
+        $('#shortDesc').hide();
+        $('#fullDesc').show();
+        evt.preventDefault();
+    });
+
+$('#fold').on('click',
+    function(evt) {
+        $('#shortDesc').show();
+        $('#fullDesc').hide();
+        evt.preventDefault();
+    });
+$("#back-to-top").click(function() {
+    $("body,html").animate({
+            scrollTop: 0
+        },
+        1000);
+    return false;
+});</script>
+<script>var GameBooker = {
+    load: function($container) {
+        if (!$container[0]) return;
+
+        var url = 'http://openbox.mobilem.360.cn/qing/getgamebookinfo?_=' + (new Date).getTime();
+
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'jsonp',
+            success: function(list) {
+                if (list && list.length > 0) {
+                    var item = list[0];
+                    $container.html(['<a class="js-link" target="_blank" href="' + item.url + '">', '<img style="width:100%;" src="' + item.img + '" />', '</a>'].join(''));
+
+                    $container.show();
+                }
+            }
+        });
+    }
+};
+
+GameBooker.load($('.js-gamebook'));</script>
+<style type="text/css">.pinholder{ height: 0px; } #thumbPreviewer {position: fixed;width: 100%;height: 100%;left:0;top:0;z-index: 100;display: none;} #thumbContainer {height: 100%;} .thumb-item{height:100%;} .thumb-item-wp {text-align: center;position: relative;z-index: 2;} .thumb-shadow {background: #000;opacity: .9;position: absolute;left:0;top: 0;width: 100%;height: 100%;z-index: 1;} .Box { display:-webkit-box; } .Box.is-center { -webkit-box-align:center; } .Box_flex { -webkit-box-flex:1; } .Relative {position:relative;} .qstoreAuthorizer { /*position:absolute;*/ /*right:10px;bottom:10px;*/ color:#999; font-size:14px; /*-webkit-transform:scale(0.9);*/ -webkit-transform-origin: center right; } .fixedBar {display:none;} .mainBtn { display:inline-block; background:#19b955; color:#fff; text-align:center; padding:.5em 1.5em; } .downloadModule { padding:10px 8px; background:#fff; } .downloadModule .app-item { float:right; }</style></body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <title>appstore-首页</title>
+    <link rel="stylesheet" href="<?php echo config('view_replace_str.__STATIC__')?>/css/index.css">
+
+</head>
+
+<body>
+
+
+<div id="warpper">
+
+    <!--包含头部模版menu-->
+    {include file="public/header" /}
+
+
+    <div class="main">
+        <div class="switcher" id="applist">
+            <ul class="tab">
+                <li class="switcher-tab cur" data-type="1" data-page="1">
+                    <a href="#nogo">软件</a></li>
+                <!--不能添加cur-->
+                <li class="switcher-tab" data-type="2" data-page="0">
+                    <a href="#nogo">游戏</a></li>
+            </ul>
+
+            <!--软件-->
+            <div class="lists switcher-panel switcher-panel-cur">
+                <ul class="xinhao">
+                    {volist name="apps" id="vo"}
+                    <li class="app-item link" data-id="{$vo.AppID}">
+                        <div class="list-img">
+                            <img src="<?php echo config('view_replace_str.__STAT__')?>/{$vo.UserID}/{$vo.AppID}/{$vo.Pic}" alt=""></div>
+                        <div class="list-cont">
+                            <div class="lt-c-tit">
+                                <h2>
+                                    <a href="#nogo">{$vo.AppName}</a></h2>
+                                <span>{$vo.Size}MB</span></div>
+                            <div class="lt-c-s-n">
+                                <div class="lt-c-s-n-l">
+                                    <div class="star">
+                                        <p style="width: 73%;"></p>
+                                    </div>
+                                </div>
+                                <span>{$vo.DownloadCount}人使用</span></div>
+                        </div>
+                        <div class="btns">
+                            <a class="dl-btn js-downloadBtn" href="#">
+                                <span></span>详情</a>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+                <if condition="count($apps) eq 5">
+                    <div class="load-bar" id="loadmore">
+                        <a href="javascript:;" class="user-pl-more-btn loadmore" data-type="1">加载更多</a>
+                    </div>
+                </if>
+                <div class="load-bar" id="tip">
+                </div>
+            </div>
+
+            <!--游戏-->
+            <div class="lists switcher-panel switcher-panel-cur"style="display: none">
+                <ul class="xinhaoo">
+                    {volist name="game" id="vv"}
+                    <li class="single_item app-item link" data-id="{$vv.AppID}">
+                        <div class="list-img">
+                            <img src="<?php echo config('view_replace_str.__STAT__')?>/{$vv.UserID}/{$vv.AppID}/{$vv.Pic}" alt=""></div>
+                        <div class="list-cont">
+                            <div class="lt-c-tit">
+                                <h2>
+                                    <a href="#nogo">{$vv.AppName}</a></h2>
+                                <span>{$vv.Size}MB</span></div>
+                            <div class="lt-c-s-n">
+                                <div class="lt-c-s-n-l">
+                                    <div class="star">
+                                        <p style="width: 73%;"></p>
+                                    </div>
+                                </div>
+                                <span>{$vv.DownloadCount}人使用</span></div>
+                        </div>
+                        <div class="btns">
+                            <a class="dl-btn js-downloadBtn" href="#">
+                                <span></span>详情</a>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+                <if condition="count($appss) eq 5">
+                    <div class="load-bar" id="loadmoree">
+                        <a href="javascript:;" class="user-pl-more-btn loadmore" data-type="1">加载更多</a>
+                    </div>
+                </if>
+                <div class="load-bar" id="tip">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="goto-top">
+        <a href="#gemore" id="back-to-top" class="user-pl-more-btn goto-bar">返回顶部</a>
+    </div>
+
+    <script>
+        //加载更多
+        var nStart = 5;
+        $('#loadmore').click(function() {
+            var _this = $(".xinhao");
+            if(nStart >= {$total}) {
+                //alert('后面没有数据了！');
+                $("#loadmore").text('没有数据了亲...').css({"border-top":"1px solid #d4d5d6","height":"30px","line-height":"30px"});
+                return false;
+            } else {
+                $.post("{:url('Index/indexdata')}", {start: nStart}, function(res) {
+                    //console.log(res);
+                    $.each(res['result'], function(i, item) {
+                        var srcc="<?php echo config('view_replace_str.__STAT__')?>"+"/"+item.UserID+"/"+item.AppID+"/"+item.Pic
+                        _this.append('<li class="app-item link" data-id="'+item.AppID+'">\
+                            <div class="list-img">\
+                            <img src="'+srcc+'" alt=""/></div>\
+                            <div class="list-cont">\
+                            <div class="lt-c-tit">\
+                            <h2>\
+                            <a href="#nogo">'+item.AppName+'</a></h2>\
+                        <span>'+item.Size+'MB</span></div>\
+                        <div class="lt-c-s-n">\
+                            <div class="lt-c-s-n-l">\
+                            <div class="star">\
+                            <p style="width: 73%;"></p>\
+                            </div>\
+                            </div>\
+                            <span>'+item.DownloadCount+'人使用</span></div>\
+                        </div>\
+                        <div class="btns">\
+                            <a class="dl-btn js-downloadBtn" href="#">\
+                           <span></span>详情</a>\
+                           </div>\
+                            </li>');
+                        $(document).on("click", ".link", function (e) {
+                            e.preventDefault();
+                            var iD=$(this).attr('data-id');
+                            window.location.href='{:url("Index/detail")}?id='+ iD ;
+                        });
+                    });
+                });
+                nStart += 5;
+            }
+        });
+        //游戏加载更多
+        var nnStart = 5;
+        $('#loadmoree').click(function() {
+            var _this = $(".xinhaoo");
+            if(nnStart >= {$tota}) {
+                //alert('后面没有数据了！');
+                $("#loadmoree").text('没有数据了亲...').css({"border-top":"1px solid #d4d5d6","height":"30px","line-height":"30px"});
+                return false;
+            } else {
+                $.post("{:url('Index/indexdatag')}", {start: nnStart}, function(res) {
+                    //console.log(res);
+                    $.each(res['result'], function(i, item) {
+                        var srcc="<?php echo config('view_replace_str.__STAT__')?>"+"/"+item.UserID+"/"+item.AppName+"/"+item.Pic
+                        _this.append('<li class="single_item app-item link" data-id="'+item.AppID+'">\
+                            <div class="list-img">\
+                            <img src="'+srcc+'" alt=""/></div>\
+                            <div class="list-cont">\
+                            <div class="lt-c-tit">\
+                            <h2>\
+                            <a href="#nogo">'+item.AppName+'</a></h2>\
+                        <span>'+item.Size+'MB</span></div>\
+                        <span>'+item.Size+'MB</span></div>\
+                        <div class="lt-c-s-n">\
+                            <div class="lt-c-s-n-l">\
+                            <div class="star">\
+                            <p style="width: 73%;"></p>\
+                            </div>\
+                            </div>\
+                            <span>'+item.DownloadCount+'人使用</span></div>\
+                        </div>\
+                        <div class="btns">\
+                            <a class="dl-btn js-downloadBtn" href="#">\
+                            <span></span>详情</a>\
+                            </div>\
+                            </li>');
+                        $(document).on("click", ".link", function (e) {
+                            e.preventDefault();
+                            var iD=$(this).attr('data-id');
+                            window.location.href='{:url("Index/detail")}?id='+ iD ;
+                        });
+                    });
+                });
+                nnStart += 5;
+            }
+        });
+        //返回顶部
+        $("#back-to-top").click(function () {
+            $("body,html").animate({
+                scrollTop:0
+            },1000);
+            return false;
+        });
+
+        //tab切换
+        $(".switcher-tab").on("click",function (e) {
+            e.preventDefault();
+            var tab=$(this);
+            if (tab.is(".cur")){
+                return true;
+            }
+            else{
+                var switcher=tab.parents(".switcher").eq(0);
+                var tabs=switcher.find('.switcher-tab');
+                var panels=switcher.find('.switcher-panel');
+                //var type=tab.data('type');
+                var index=tab.index();
+                //console.log(index);索引测试
+                tabs.removeClass('cur');
+                tab.addClass('cur');
+                var targetPanel=panels.eq(index);
+                panels.hide();
+                targetPanel.show();
+            }
+        })
+
+        $("li.app-item").on("click",function (e) {
+            e.preventDefault();
+            var iD=$(this).attr('data-id');
+            //console.log(iD);
+            window.location.href='{:url("Index/detail")}?id='+ iD ;
+        });
+
+    </script>
+</div>
+</body>
+
+</html>
